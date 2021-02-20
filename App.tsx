@@ -1,21 +1,30 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { ReactElement } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View ,ImageBackground} from 'react-native';
+import  image from './image/meteo.jpg';
+import  Home  from './screens/Home';
 
 export default function App(): ReactElement {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
+    
+      <View style={styles.background}>
+          <ImageBackground source={image} style={styles.image}>
+            <Home/>
+          <StatusBar style="auto" />
+          </ImageBackground>
     </View>
+    
+    
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  background: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
+  image: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center"
+  }
 });
