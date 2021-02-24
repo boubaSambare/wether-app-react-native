@@ -1,13 +1,17 @@
 import  React,{useState,useEffect } from 'react';
 import { View, Text, StyleSheet} from 'react-native';
 import * as Location from 'expo-location';
+import Header from '../components/Header';
+import CurrentWeather from '../components/CurrentWeather';
+import {useAppDispatch} from '../store/hooks';
+import  {fetchWeatherDataByCoord,fetchWeatherData} from '../slices/weatherSlice';
 
-export interface HomeProps {
+interface HomeProps {
 }
 
 export default function Home (props: HomeProps) {
-  const [location, setLocation] = useState<null | {}>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     (async () => {
@@ -18,20 +22,15 @@ export default function Home (props: HomeProps) {
       }
 
       let location = await Location.getCurrentPositionAsync({});
-      setLocation(location);
+      dispatch(fetchWeatherDataByCoord({long:location.coords.longitude,lat:location.coords.latitude}));
     })();
   }, []);
 
-  let text = 'Waiting..';
-  if (errorMsg) {
-    text = errorMsg;
-  } else if (location) {
-    text = JSON.stringify(location);
-  }
+  
     return (
       <View style={styles.container}>
-         <Text>Home {text}</Text>
-
+        <Header/>
+        <CurrentWeather/>
       </View>
     );
 }

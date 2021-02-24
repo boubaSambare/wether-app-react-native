@@ -2,10 +2,14 @@ import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../store/store";
 import { API_URL } from "../config";
 
-interface IWeatherState {
-  data: {} | null;
+export interface IWeatherState {
+  data: any | null;
   isLoading: boolean;
   cityImages: {} | null;
+}
+interface IGeoCoord {
+  long: number;
+  lat: number;
 }
 
 const initialState: IWeatherState = {
@@ -36,6 +40,20 @@ export const fetchimagesData = createAsyncThunk(
     }
   }
 );
+export const fetchWeatherDataByCoord = createAsyncThunk(
+  "weather/coord",
+  async (geo: IGeoCoord, { rejectWithValue }) => {
+    try {
+      const { long, lat } = geo;
+      const request = await fetch(
+        `${API_URL}/weather/onecall?lon=${long}&lat=${lat}`
+      );
+      return await request.json();
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
 
 export const weatherSlice = createSlice({
   name: "weather",
@@ -48,21 +66,23 @@ export const weatherSlice = createSlice({
     });
     builder.addCase(fetchWeatherData.fulfilled, (state, { payload }) => {
       state.data = payload;
+      state.isLoading = false;
     });
     builder.addCase(fetchimagesData.pending, (state, { payload }) => {
       state.isLoading = true;
     });
     builder.addCase(fetchimagesData.fulfilled, (state, { payload }) => {
       state.cityImages = payload;
+      state.isLoading = false;
+    });
+    builder.addCase(fetchWeatherDataByCoord.pending, (state, { payload }) => {
+      state.isLoading = true;
+    });
+    builder.addCase(fetchWeatherDataByCoord.fulfilled, (state, { payload }) => {
+      state.data = payload;
+      state.isLoading = false;
     });
   },
 });
-
-export const {
-  setCityImages,
-  setData,
-  setIsloading,
-  unSetIsloading,
-} = weatherSlice.actions;
 
 export default weatherSlice.reducer;
