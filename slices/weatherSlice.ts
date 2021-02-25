@@ -5,7 +5,8 @@ import { API_URL } from "../config";
 export interface IWeatherState {
   data: any | null;
   isLoading: boolean;
-  cityImages: {} | null;
+  cityImages: any | null;
+  cityName: any | null;
 }
 interface IGeoCoord {
   long: number;
@@ -16,6 +17,7 @@ const initialState: IWeatherState = {
   data: null,
   isLoading: false,
   cityImages: null,
+  cityName: null,
 };
 
 export const fetchWeatherData = createAsyncThunk(
@@ -59,7 +61,11 @@ export const weatherSlice = createSlice({
   name: "weather",
 
   initialState,
-  reducers: {},
+  reducers: {
+    setCityName: (state, { payload }) => {
+      state.cityName = payload;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchWeatherData.pending, (state, { payload }) => {
       state.isLoading = true;
@@ -84,5 +90,7 @@ export const weatherSlice = createSlice({
     });
   },
 });
+
+export const { setCityName } = weatherSlice.actions;
 
 export default weatherSlice.reducer;
