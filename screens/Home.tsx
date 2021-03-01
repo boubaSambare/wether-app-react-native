@@ -10,6 +10,7 @@ import {
   fetchWeatherData,
   setCityName,
 } from "../slices/weatherSlice";
+import Forecast from "../components/Forecast";
 
 interface HomeProps {}
 
@@ -44,6 +45,7 @@ export default function Home(props: HomeProps) {
     <View style={styles.container}>
       <Header />
       <CurrentWeather />
+      <Forecast />
     </View>
   );
 }
