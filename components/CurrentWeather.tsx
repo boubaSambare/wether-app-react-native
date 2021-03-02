@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Card, Title } from "react-native-paper";
-import { StyleSheet, View, Text, Dimensions } from "react-native";
+import { StyleSheet, View, Text, Dimensions,ActivityIndicator } from "react-native";
 import Waveborder from "./Waveborder";
 import { useAppSelector } from "../store/hooks";
 import { IWeatherState } from "../slices/weatherSlice";
@@ -12,11 +12,12 @@ import {
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
 import { weatherIcons } from "../utils";
+import Color from "../constants/color";
 const { height } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#192B43",
+    backgroundColor: Color.backgroundColor,
     opacity: 0.7,
     borderRadius: 0,
     height: height / 2,
@@ -42,12 +43,16 @@ export default function CurrentWeather(props: ICurrentWeatherProps) {
   const currentCityName = useAppSelector(
     (state: RootState) => state.weather.cityName
   );
+  const isLoading = useAppSelector(
+    (state: RootState) => state.weather.isLoading
+  );
   const _weatherIcon = weatherIcons.find(
     (element) => element.keyIcon === weatherData?.daily[0]?.weather[0]?.icon
   );
 
   return (
     <>
+     {isLoading && <ActivityIndicator/>}
       {!!weatherData && (
         <Card style={styles.container}>
           <View style={styles.icon}>
