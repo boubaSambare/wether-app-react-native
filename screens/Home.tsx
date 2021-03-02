@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet,ScrollView } from "react-native";
 import * as Location from "expo-location";
 import Header from "../components/Header";
 import CurrentWeather from "../components/CurrentWeather";
@@ -42,11 +42,14 @@ export default function Home(props: HomeProps) {
   }, []);
 
   return (
-    <View style={styles.container}>
+    <ScrollView>
+      <View style={styles.container}>
       <Header />
       <CurrentWeather />
       <Forecast />
     </View>
+    </ScrollView>
+    
   );
 }
 
