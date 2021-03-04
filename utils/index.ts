@@ -40,3 +40,7 @@ export const icons = {
   i50d: require('../assets/icons/50d.png'),
   i50n: require('../assets/icons/50n.png'),
 }
+
+
+export const kelvinToCelcius = (data:number) => Math.floor(data - 273)
+export const getDayString = (data:number) => new Date(data * 1000).toDateString().split(" ")[0]
