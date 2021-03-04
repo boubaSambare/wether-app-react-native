@@ -15,7 +15,7 @@ import {
 import { weatherIcons } from "../utils";
 import Color from "../constants/color";
 const { height } = Dimensions.get("window");
-const CURVE_BORDER = Platform.OS === "ios" ? "37.2%" : "34.5%";
+const CURVE_BORDER = Platform.OS === "ios" ? "34.7%" : "32.7%";
 
 const styles = StyleSheet.create({
   container: {
