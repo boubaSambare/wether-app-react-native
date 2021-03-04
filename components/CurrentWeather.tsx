@@ -1,7 +1,8 @@
-import * as React from "react";
+import  React,{useEffect} from "react";
 import { Card, Title } from "react-native-paper";
-import { StyleSheet, View, Text, Dimensions,ActivityIndicator } from "react-native";
+import { StyleSheet, View, Text, Dimensions,ActivityIndicator ,Platform} from "react-native";
 import Waveborder from "./Waveborder";
+import * as SplashScreen from 'expo-splash-screen';
 import { useAppSelector } from "../store/hooks";
 import { IWeatherState } from "../slices/weatherSlice";
 import { RootState } from "../store/store";
@@ -14,6 +15,7 @@ import {
 import { weatherIcons } from "../utils";
 import Color from "../constants/color";
 const { height } = Dimensions.get("window");
+const CURVE_BORDER = Platform.OS === "ios" ? "37.2%" : "34.5%";
 
 const styles = StyleSheet.create({
   container: {
@@ -32,8 +34,13 @@ const styles = StyleSheet.create({
   svgCurve: {
     width: Dimensions.get("window").width,
     position: "absolute",
-    top: height / 2,
+    top: CURVE_BORDER,
+    zIndex:1
   },
+  wrapper: {
+    flexDirection: "column",
+    justifyContent:"space-evenly"
+  }
 });
 
 interface ICurrentWeatherProps {}
@@ -50,10 +57,13 @@ export default function CurrentWeather(props: ICurrentWeatherProps) {
     (element) => element.keyIcon === weatherData?.daily[0]?.weather[0]?.icon
   );
 
+  
+    
   return (
     <>
-     {isLoading && <ActivityIndicator/>}
+     {isLoading && <ActivityIndicator  size="small" color="green"/>}
       {!!weatherData && (
+       <>
         <Card style={styles.container}>
           <View style={styles.icon}>
             <Text style={styles.textColor}>
@@ -96,9 +106,13 @@ export default function CurrentWeather(props: ICurrentWeatherProps) {
               {Math.floor(weatherData.daily[0].temp.day - 273)} &#8451;
             </Title>
           </View>
-          <Waveborder customStyles={styles.svgCurve} />
+         
         </Card>
+         <Waveborder customStyles={styles.svgCurve} />
+         </>
       )}
+     
+  
     </>
   );
 }

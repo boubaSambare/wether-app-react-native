@@ -5,6 +5,7 @@ import Header from "../components/Header";
 import CurrentWeather from "../components/CurrentWeather";
 import { Searchbar } from "react-native-paper";
 import { useAppDispatch } from "../store/hooks";
+import { useAppSelector } from "../store/hooks";
 import {
   fetchWeatherDataByCoord,
   fetchWeatherData,
@@ -33,6 +34,7 @@ export default function Home(props: HomeProps) {
           lat: location.coords.latitude,
         })
       );
+      // to get current city infos 
       let currentLocationInfo = await Location.reverseGeocodeAsync({
         longitude: location.coords.longitude,
         latitude: location.coords.latitude,
@@ -40,6 +42,9 @@ export default function Home(props: HomeProps) {
       dispatch(setCityName(currentLocationInfo));
     })();
   }, []);
+
+
+  
 
   return (
     <ScrollView>

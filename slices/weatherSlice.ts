@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../store/store";
 import { API_URL } from "../config";
+import * as SplashScreen from 'expo-splash-screen';
 
 export interface IWeatherState {
   data: any | null;
@@ -24,8 +25,11 @@ export const fetchWeatherData = createAsyncThunk(
   "weather/fetchalldata",
   async (queryString: string, { rejectWithValue }) => {
     try {
+      await SplashScreen.preventAutoHideAsync();
       const request = await fetch(`${API_URL}/weather?name=${queryString}`);
-      return await request.json();
+      const weatherData = await request.json();
+      await SplashScreen.hideAsync();
+      return weatherData;
     } catch (err) {
       return rejectWithValue(err.response.data);
     }

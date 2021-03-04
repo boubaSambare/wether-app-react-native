@@ -41,7 +41,7 @@ const Header: React.FC = () => {
               style={{ alignItems:"center" }}
             />
           )}
-          {isLoading && <ActivityIndicator/>}
+          {isLoading && <ActivityIndicator size="small" color="green"/>}
           <Appbar.Action icon={MORE_ICON} onPress={() => {}} color="white" />
         </Appbar.Header>
       </View>
