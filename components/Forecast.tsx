@@ -1,9 +1,9 @@
 import * as React from "react";
-import { Platform, StyleSheet, View, Dimensions, Text } from "react-native";
+import { Platform, StyleSheet, View, Dimensions, Text,Image } from "react-native";
 import Waveborder from "./Waveborder";
 import { useAppSelector } from "../store/hooks";
 import { RootState } from "../store/store";
-import { weatherIcons } from "../utils";
+import { weatherIcons,icons } from "../utils";
 import {
   Ionicons,
   Feather,
@@ -36,6 +36,10 @@ const styles = StyleSheet.create({
     flexWrap: "nowrap",
     width: 100,
   },
+  icon:{
+    width: 35,
+    height:35
+  }
 });
 
 const Forecast = () => {
@@ -60,7 +64,7 @@ const Forecast = () => {
                     </Text>
                   </View>
                  <View style={styles.dayText}>
-                   <Text>{data.weather[0].main}</Text>
+                 <Image style={styles.icon} source={icons[`i${data.weather[0].icon}`]} />
                  </View>
                 </View>
               </View>
