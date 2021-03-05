@@ -12,7 +12,7 @@ import {
   FontAwesome5,
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
-import { weatherIcons } from "../utils";
+import { weatherIcons,kelvinToCelcius } from "../utils";
 import Color from "../constants/color";
 const { height } = Dimensions.get("window");
 const CURVE_BORDER = Platform.OS === "ios" ? "34.7%" : "32.7%";
@@ -103,7 +103,7 @@ export default function CurrentWeather(props: ICurrentWeatherProps) {
           <View style={styles.icon}>
             <Title style={styles.textColor}>
               {" "}
-              {Math.floor(weatherData.daily[0].temp.day - 273)} &#8451;
+              {kelvinToCelcius(weatherData.daily[0].temp.day )} &#8451;
             </Title>
           </View>
          

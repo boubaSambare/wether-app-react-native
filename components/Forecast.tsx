@@ -3,7 +3,7 @@ import { Platform, StyleSheet, View, Dimensions, Text,Image } from "react-native
 import Waveborder from "./Waveborder";
 import { useAppSelector } from "../store/hooks";
 import { RootState } from "../store/store";
-import { weatherIcons,icons } from "../utils";
+import { weatherIcons,icons,kelvinToCelcius, getDayString } from "../utils";
 import {
   Ionicons,
   Feather,
@@ -54,13 +54,13 @@ const Forecast = () => {
               <View key={i} style={styles.dayContainer}>
                 <View>
                   <Text style={styles.dayText}>
-                    {new Date(data.dt * 1000).toDateString().split(" ")[0]}
+                    {getDayString(data.dt)}
                   </Text>
                 </View>
                 <View style={styles.tempIcon}>
                   <View>
                     <Text style={styles.dayText}>
-                      {Math.floor(data.temp.day - 273)}&#8451;
+                      {kelvinToCelcius(data.temp.day)}&#8451;
                     </Text>
                   </View>
                  <View style={styles.dayText}>
