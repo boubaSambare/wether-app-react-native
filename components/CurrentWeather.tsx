@@ -1,18 +1,12 @@
 import  React,{useEffect} from "react";
 import { Card, Title } from "react-native-paper";
-import { StyleSheet, View, Text, Dimensions,ActivityIndicator ,Platform} from "react-native";
+import { StyleSheet, View, Text, Dimensions,ActivityIndicator ,Platform,Image} from "react-native";
 import Waveborder from "./Waveborder";
 import * as SplashScreen from 'expo-splash-screen';
 import { useAppSelector } from "../store/hooks";
 import { IWeatherState } from "../slices/weatherSlice";
 import { RootState } from "../store/store";
-import {
-  Ionicons,
-  Feather,
-  FontAwesome5,
-  MaterialCommunityIcons,
-} from "@expo/vector-icons";
-import { weatherIcons,kelvinToCelcius } from "../utils";
+import { weatherIcons,kelvinToCelcius,icons } from "../utils";
 import Color from "../constants/color";
 const { height } = Dimensions.get("window");
 const CURVE_BORDER = Platform.OS === "ios" ? "34.7%" : "32.7%";
@@ -40,6 +34,10 @@ const styles = StyleSheet.create({
   wrapper: {
     flexDirection: "column",
     justifyContent:"space-evenly"
+  },
+  iconImage: {
+    width:60,
+    height:60
   }
 });
 
@@ -71,34 +69,7 @@ export default function CurrentWeather(props: ICurrentWeatherProps) {
             </Text>
           </View>
           <View style={styles.icon}>
-            {_weatherIcon?.provider === "Ionicons" && (
-              <Ionicons
-                name={`${_weatherIcon?.icon}`}
-                size={100}
-                color="white"
-              />
-            )}
-            {_weatherIcon?.provider === "FontAwesome5" && (
-              <FontAwesome5
-                name={`${_weatherIcon?.icon}`}
-                size={100}
-                color="white"
-              />
-            )}
-            {_weatherIcon?.provider === "Feather" && (
-              <Feather
-                name={`${_weatherIcon?.icon}`}
-                size={100}
-                color="white"
-              />
-            )}
-            {_weatherIcon?.provider === "MaterialCommunityIcons" && (
-              <MaterialCommunityIcons
-                name={`${_weatherIcon?.icon}`}
-                size={100}
-                color="white"
-              />
-            )}
+          <Image style={styles.iconImage} source={icons[`i${weatherData.daily[0].weather[0].icon}`]} />
           </View>
           <View style={styles.icon}>
             <Title style={styles.textColor}>
