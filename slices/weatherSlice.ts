@@ -1,24 +1,25 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
-import { RootState } from "../store/store";
 import { API_URL } from "../config";
-import * as SplashScreen from 'expo-splash-screen';
+import * as SplashScreen from "expo-splash-screen";
 
 export interface IWeatherState {
-  data: any | null;
+  weatherData: any;
   isLoading: boolean;
   cityImages: any | null;
   cityName: any | null;
+  errorMessage: string;
 }
 interface IGeoCoord {
   long: number;
   lat: number;
 }
 
-const initialState: IWeatherState = {
-  data: null,
+export const initialState: IWeatherState = {
+  weatherData: {},
   isLoading: false,
   cityImages: null,
   cityName: null,
+  errorMessage: "",
 };
 
 export const fetchWeatherData = createAsyncThunk(
@@ -75,7 +76,7 @@ export const weatherSlice = createSlice({
       state.isLoading = true;
     });
     builder.addCase(fetchWeatherData.fulfilled, (state, { payload }) => {
-      state.data = payload;
+      state.weatherData = payload;
       state.isLoading = false;
     });
     builder.addCase(fetchimagesData.pending, (state, { payload }) => {
@@ -89,7 +90,11 @@ export const weatherSlice = createSlice({
       state.isLoading = true;
     });
     builder.addCase(fetchWeatherDataByCoord.fulfilled, (state, { payload }) => {
-      state.data = payload;
+      state.weatherData = payload;
+      state.isLoading = false;
+    });
+    builder.addCase(fetchWeatherDataByCoord.rejected, (state, { payload }) => {
+      state.errorMessage = payload as string;
       state.isLoading = false;
     });
   },
