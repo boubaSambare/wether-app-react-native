@@ -1,9 +1,10 @@
 import * as React from "react";
 import { Appbar } from "react-native-paper";
-import { Platform, StyleSheet, View,ActivityIndicator } from "react-native";
+import { Platform, StyleSheet, View, ActivityIndicator } from "react-native";
 import { useAppSelector } from "../store/hooks";
 import { RootState } from "../store/store";
 import Color from "../constants/color";
+import { makeSelectCityName, makeSelectIsloading } from "../slices/selectors";
 
 const MORE_ICON = Platform.OS === "ios" ? "dots-horizontal" : "dots-vertical";
 
@@ -21,13 +22,9 @@ const styles = StyleSheet.create({
 });
 
 const Header: React.FC = () => {
-  const currentCityName = useAppSelector(
-    (state: RootState) => state.weather.cityName
-  );
-  const isLoading = useAppSelector(
-    (state: RootState) => state.weather.isLoading
-  );
-  
+  const currentCityName = useAppSelector(makeSelectCityName);
+  const isLoading = useAppSelector(makeSelectIsloading);
+  console.table(currentCityName);
 
   return (
     <>
@@ -38,10 +35,10 @@ const Header: React.FC = () => {
             <Appbar.Content
               title={currentCityName[0].city}
               color="white"
-              style={{ alignItems:"center" }}
+              style={{ alignItems: "center" }}
             />
           )}
-          {isLoading && <ActivityIndicator size="small" color="green"/>}
+          {isLoading && <ActivityIndicator size="small" color="green" />}
           <Appbar.Action icon={MORE_ICON} onPress={() => {}} color="white" />
         </Appbar.Header>
       </View>

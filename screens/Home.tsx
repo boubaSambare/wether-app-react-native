@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet,ScrollView } from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import * as Location from "expo-location";
 import Header from "../components/Header";
 import CurrentWeather from "../components/CurrentWeather";
@@ -27,34 +27,30 @@ export default function Home(props: HomeProps) {
         return;
       }
 
-      let location = await Location.getCurrentPositionAsync({});
+      let cityCoordinates = await Location.getCurrentPositionAsync({});
       dispatch(
         fetchWeatherDataByCoord({
-          long: location.coords.longitude,
-          lat: location.coords.latitude,
+          long: cityCoordinates.coords.longitude,
+          lat: cityCoordinates.coords.latitude,
         })
       );
-      // to get current city infos 
-      let currentLocationInfo = await Location.reverseGeocodeAsync({
-        longitude: location.coords.longitude,
-        latitude: location.coords.latitude,
+      // to get current city infos
+      let getCityNameByCoord = await Location.reverseGeocodeAsync({
+        longitude: cityCoordinates.coords.longitude,
+        latitude: cityCoordinates.coords.latitude,
       });
-      dispatch(setCityName(currentLocationInfo));
+      dispatch(setCityName(getCityNameByCoord));
     })();
   }, []);
-
-
-  
 
   return (
     <ScrollView>
       <View style={styles.container}>
-      <Header />
-      <CurrentWeather />
-      <Forecast />
-    </View>
+        <Header />
+        <CurrentWeather />
+        <Forecast />
+      </View>
     </ScrollView>
-    
   );
 }
 

@@ -7,13 +7,13 @@ const SVG_HEIGHT = Platform.OS === "ios" ? 180 : 160;
 
 export default function Waveborder({ customStyles }) {
   return (
-    <View style={customStyles}>
       <View
         style={{
           backgroundColor: "transparent",
           height: SVG_HEIGHT,
           width: width,
           alignSelf: "stretch",
+          ...customStyles
         }}
       >
         <Svg
@@ -21,6 +21,8 @@ export default function Waveborder({ customStyles }) {
           viewBox="0 0 1440 320"
           height="100%"
           width={width}
+  
+          style={{opacity:0.8}}
         >
           <Path
             fill="rgb(25, 43, 67,0.7)"
@@ -29,6 +31,6 @@ export default function Waveborder({ customStyles }) {
           ></Path>
         </Svg>
       </View>
-    </View>
+   
   );
 }
